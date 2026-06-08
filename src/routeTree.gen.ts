@@ -9,38 +9,231 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamRouteImport } from './routes/team'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
+import { Route as AdminNewsRouteImport } from './routes/admin.news'
+import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
+import { Route as ApiPublicSetupAdminRouteImport } from './routes/api/public/setup-admin'
 
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNewsRoute = AdminNewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMessagesRoute = AdminMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ApiPublicSetupAdminRoute = ApiPublicSetupAdminRouteImport.update({
+  id: '/api/public/setup-admin',
+  path: '/api/public/setup-admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/news': typeof NewsRoute
+  '/projects': typeof ProjectsRoute
+  '/team': typeof TeamRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/news': typeof NewsRoute
+  '/projects': typeof ProjectsRoute
+  '/team': typeof TeamRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
+  '/news': typeof NewsRoute
+  '/projects': typeof ProjectsRoute
+  '/team': typeof TeamRoute
+  '/admin/messages': typeof AdminMessagesRoute
+  '/admin/news': typeof AdminNewsRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/contact'
+    | '/news'
+    | '/projects'
+    | '/team'
+    | '/admin/messages'
+    | '/admin/news'
+    | '/admin/projects'
+    | '/api/public/setup-admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/contact'
+    | '/news'
+    | '/projects'
+    | '/team'
+    | '/admin/messages'
+    | '/admin/news'
+    | '/admin/projects'
+    | '/api/public/setup-admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/auth'
+    | '/contact'
+    | '/news'
+    | '/projects'
+    | '/team'
+    | '/admin/messages'
+    | '/admin/news'
+    | '/admin/projects'
+    | '/api/public/setup-admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
+  NewsRoute: typeof NewsRoute
+  ProjectsRoute: typeof ProjectsRoute
+  TeamRoute: typeof TeamRoute
+  ApiPublicSetupAdminRoute: typeof ApiPublicSetupAdminRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +241,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/news': {
+      id: '/admin/news'
+      path: '/news'
+      fullPath: '/admin/news'
+      preLoaderRoute: typeof AdminNewsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/messages': {
+      id: '/admin/messages'
+      path: '/messages'
+      fullPath: '/admin/messages'
+      preLoaderRoute: typeof AdminMessagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/api/public/setup-admin': {
+      id: '/api/public/setup-admin'
+      path: '/api/public/setup-admin'
+      fullPath: '/api/public/setup-admin'
+      preLoaderRoute: typeof ApiPublicSetupAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AdminRouteChildren {
+  AdminMessagesRoute: typeof AdminMessagesRoute
+  AdminNewsRoute: typeof AdminNewsRoute
+  AdminProjectsRoute: typeof AdminProjectsRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminMessagesRoute: AdminMessagesRoute,
+  AdminNewsRoute: AdminNewsRoute,
+  AdminProjectsRoute: AdminProjectsRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
+  NewsRoute: NewsRoute,
+  ProjectsRoute: ProjectsRoute,
+  TeamRoute: TeamRoute,
+  ApiPublicSetupAdminRoute: ApiPublicSetupAdminRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
