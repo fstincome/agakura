@@ -247,39 +247,57 @@ export type Database = {
           bio_en: string | null
           bio_fr: string | null
           created_at: string
+          first_name: string | null
           id: string
+          last_name: string | null
+          linkedin_url: string | null
           name: string
           photo_url: string | null
+          position_en: string | null
+          position_fr: string | null
           published: boolean
           role_en: string | null
           role_fr: string | null
           sort_order: number
+          twitter_url: string | null
           updated_at: string
         }
         Insert: {
           bio_en?: string | null
           bio_fr?: string | null
           created_at?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
+          linkedin_url?: string | null
           name: string
           photo_url?: string | null
+          position_en?: string | null
+          position_fr?: string | null
           published?: boolean
           role_en?: string | null
           role_fr?: string | null
           sort_order?: number
+          twitter_url?: string | null
           updated_at?: string
         }
         Update: {
           bio_en?: string | null
           bio_fr?: string | null
           created_at?: string
+          first_name?: string | null
           id?: string
+          last_name?: string | null
+          linkedin_url?: string | null
           name?: string
           photo_url?: string | null
+          position_en?: string | null
+          position_fr?: string | null
           published?: boolean
           role_en?: string | null
           role_fr?: string | null
           sort_order?: number
+          twitter_url?: string | null
           updated_at?: string
         }
         Relationships: []
