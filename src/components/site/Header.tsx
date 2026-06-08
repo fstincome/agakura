@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Home, Info, Users, Rocket, Newspaper, Phone, Menu, X, Lock } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import logoAsset from "@/assets/agakura-logo.jpg.asset.json";
 
 export function Header() {
   const { t, lang, setLang } = useI18n();
@@ -28,9 +29,11 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground font-bold ring-2 ring-accent/40">
-            A
-          </div>
+          <img
+            src={logoAsset.url}
+            alt="AGAKURA Jeunesse Providence"
+            className="h-11 w-11 rounded-full object-cover ring-2 ring-primary/30 bg-white"
+          />
           <div className="hidden sm:block leading-tight">
             <div className="text-sm font-bold tracking-tight">
               AGAKURA <span className="text-primary">JEUNESSE PROVIDENCE</span>
