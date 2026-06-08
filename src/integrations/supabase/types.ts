@@ -41,6 +41,54 @@ export type Database = {
         }
         Relationships: []
       }
+      hero_slides: {
+        Row: {
+          created_at: string
+          cta_href: string | null
+          cta_label_en: string | null
+          cta_label_fr: string | null
+          id: string
+          image_url: string | null
+          published: boolean
+          sort_order: number
+          subtitle_en: string | null
+          subtitle_fr: string | null
+          title_en: string
+          title_fr: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          cta_href?: string | null
+          cta_label_en?: string | null
+          cta_label_fr?: string | null
+          id?: string
+          image_url?: string | null
+          published?: boolean
+          sort_order?: number
+          subtitle_en?: string | null
+          subtitle_fr?: string | null
+          title_en: string
+          title_fr: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          cta_href?: string | null
+          cta_label_en?: string | null
+          cta_label_fr?: string | null
+          id?: string
+          image_url?: string | null
+          published?: boolean
+          sort_order?: number
+          subtitle_en?: string | null
+          subtitle_fr?: string | null
+          title_en?: string
+          title_fr?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       news: {
         Row: {
           body_en: string | null
@@ -160,6 +208,78 @@ export type Database = {
           sort_order?: number
           title_en?: string
           title_fr?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          label: string | null
+          updated_at: string
+          value_en: string | null
+          value_fr: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          label?: string | null
+          updated_at?: string
+          value_en?: string | null
+          value_fr?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          label?: string | null
+          updated_at?: string
+          value_en?: string | null
+          value_fr?: string | null
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          bio_en: string | null
+          bio_fr: string | null
+          created_at: string
+          id: string
+          name: string
+          photo_url: string | null
+          published: boolean
+          role_en: string | null
+          role_fr: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          bio_en?: string | null
+          bio_fr?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          photo_url?: string | null
+          published?: boolean
+          role_en?: string | null
+          role_fr?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          bio_en?: string | null
+          bio_fr?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          photo_url?: string | null
+          published?: boolean
+          role_en?: string | null
+          role_fr?: string | null
+          sort_order?: number
           updated_at?: string
         }
         Relationships: []

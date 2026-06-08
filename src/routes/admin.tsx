@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
-import { LayoutDashboard, Rocket, Newspaper, Mail, LogOut } from "lucide-react";
+import { LayoutDashboard, Rocket, Newspaper, Mail, LogOut, Image, Users, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
@@ -32,10 +32,13 @@ function AdminLayout() {
 
   if (!ready) return <div className="container-x py-20">Loading…</div>;
 
-  const items = [
+    const items = [
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+    { to: "/admin/hero", label: "Hero slides", icon: Image },
     { to: "/admin/projects", label: t("nav.projects"), icon: Rocket },
     { to: "/admin/news", label: t("nav.news"), icon: Newspaper },
+    { to: "/admin/team", label: t("nav.team"), icon: Users },
+    { to: "/admin/content", label: "Site content", icon: FileText },
     { to: "/admin/messages", label: "Messages", icon: Mail },
   ];
 

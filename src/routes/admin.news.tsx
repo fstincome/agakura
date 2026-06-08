@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Trash2, Save, Pencil } from "lucide-react";
+import { LangTabs, AdminInput, AdminTextArea } from "@/components/admin/LangTabs";
 
 export const Route = createFileRoute("/admin/news")({ component: AdminNews });
 
@@ -50,7 +51,7 @@ function AdminNews() {
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-border">
-                <td className="p-3 font-medium">{r.title_en}</td>
+                <td className="p-3 font-medium">{r.title_fr || r.title_en}</td>
                 <td className="p-3 text-muted-foreground">{new Date(r.published_at).toLocaleDateString()}</td>
                 <td className="p-3">{r.published ? "✓" : "—"}</td>
                 <td className="p-3 text-right space-x-2">
@@ -68,16 +69,26 @@ function AdminNews() {
           <div className="bg-card rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-bold">{editing.id ? "Edit" : "New"} news</h3>
             <div className="grid sm:grid-cols-2 gap-3">
-              <F label="Slug" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v })} />
-              <F label="Date" type="date" value={editing.published_at.slice(0, 10)} onChange={(v) => setEditing({ ...editing, published_at: new Date(v).toISOString() })} />
-              <F label="Title (FR)" value={editing.title_fr} onChange={(v) => setEditing({ ...editing, title_fr: v })} />
-              <F label="Title (EN)" value={editing.title_en} onChange={(v) => setEditing({ ...editing, title_en: v })} />
+              <AdminInput label="Slug" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v })} />
+              <AdminInput label="Date" type="date" value={editing.published_at.slice(0, 10)} onChange={(v) => setEditing({ ...editing, published_at: new Date(v).toISOString() })} />
             </div>
-            <TA label="Excerpt (FR)" value={editing.excerpt_fr ?? ""} onChange={(v) => setEditing({ ...editing, excerpt_fr: v })} />
-            <TA label="Excerpt (EN)" value={editing.excerpt_en ?? ""} onChange={(v) => setEditing({ ...editing, excerpt_en: v })} />
-            <TA label="Body (FR)" value={editing.body_fr ?? ""} onChange={(v) => setEditing({ ...editing, body_fr: v })} />
-            <TA label="Body (EN)" value={editing.body_en ?? ""} onChange={(v) => setEditing({ ...editing, body_en: v })} />
-            <F label="Image URL" value={editing.image_url ?? ""} onChange={(v) => setEditing({ ...editing, image_url: v })} />
+            <AdminInput label="Image URL" value={editing.image_url ?? ""} onChange={(v) => setEditing({ ...editing, image_url: v })} />
+            <LangTabs
+              fr={
+                <>
+                  <AdminInput label="Titre (FR)" value={editing.title_fr} onChange={(v) => setEditing({ ...editing, title_fr: v })} />
+                  <AdminTextArea label="Extrait (FR)" value={editing.excerpt_fr ?? ""} onChange={(v) => setEditing({ ...editing, excerpt_fr: v })} />
+                  <AdminTextArea label="Contenu (FR)" rows={8} value={editing.body_fr ?? ""} onChange={(v) => setEditing({ ...editing, body_fr: v })} />
+                </>
+              }
+              en={
+                <>
+                  <AdminInput label="Title (EN)" value={editing.title_en} onChange={(v) => setEditing({ ...editing, title_en: v })} />
+                  <AdminTextArea label="Excerpt (EN)" value={editing.excerpt_en ?? ""} onChange={(v) => setEditing({ ...editing, excerpt_en: v })} />
+                  <AdminTextArea label="Body (EN)" rows={8} value={editing.body_en ?? ""} onChange={(v) => setEditing({ ...editing, body_en: v })} />
+                </>
+              }
+            />
             <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={editing.published} onChange={(e) => setEditing({ ...editing, published: e.target.checked })} />Published</label>
             <div className="flex gap-2 pt-2">
               <button onClick={save} className="btn-primary"><Save className="h-4 w-4" />Save</button>
@@ -89,10 +100,3 @@ function AdminNews() {
     </div>
   );
 }
-
-const F = ({ label, value, onChange, type = "text" }: { label: string; value: string; onChange: (v: string) => void; type?: string }) => (
-  <div><label className="text-xs font-medium mb-1 block">{label}</label><input type={type} value={value} onChange={(e) => onChange(e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" /></div>
-);
-const TA = ({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) => (
-  <div><label className="text-xs font-medium mb-1 block">{label}</label><textarea rows={3} value={value} onChange={(e) => onChange(e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm" /></div>
-);
