@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, MapPin, Mail } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import logoAsset from "@/assets/agakura-logo.jpg.asset.json";
 
 export function Footer() {
   const { t } = useI18n();
@@ -9,7 +10,7 @@ export function Footer() {
       <div className="container-x py-12 grid gap-10 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground font-bold">A</div>
+            <img src={logoAsset.url} alt="AGAKURA" className="h-11 w-11 rounded-full object-cover bg-white ring-2 ring-primary/30" />
             <div className="font-bold">AGAKURA <span className="text-primary">JEUNESSE PROVIDENCE</span></div>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-md">{t("brand.tagline")}</p>
