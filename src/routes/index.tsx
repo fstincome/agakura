@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
+import { HeroCarousel } from "@/components/site/HeroCarousel";
 import { ArrowRight, Phone, MapPin, Users, ShieldCheck, Leaf, GraduationCap, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -34,40 +35,7 @@ function Home() {
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative">
-        <div className="container-x pt-8">
-          <div className="relative overflow-hidden rounded-3xl">
-            <img
-              src="https://agakura.bi/visite.jpg"
-              alt="Education and Health Awareness Programs"
-              className="h-[420px] sm:h-[560px] w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
-            <div className="absolute inset-0 flex items-end">
-              <div className="p-6 sm:p-12 max-w-3xl text-white">
-                <div className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70 mb-3">
-                  {t("hero.eyebrow")}
-                </div>
-                <h1 className="text-4xl sm:text-6xl font-extrabold leading-[1.05] italic">
-                  {t("hero.title")}
-                </h1>
-                <p className="mt-5 text-sm sm:text-base text-white/85 max-w-2xl border-l-2 border-primary pl-4">
-                  {t("hero.body")}
-                </p>
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <Link to="/projects" className="btn-primary">
-                    {t("hero.cta")} <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link to="/contact" className="btn-outline bg-white/10 border-white/30 text-white hover:bg-white/20">
-                    {t("hero.cta2")}
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel />
 
       {/* INFO BAR */}
       <section className="container-x mt-8">
@@ -137,31 +105,6 @@ function Home() {
                   </Link>
                 </div>
               </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* VOICES */}
-      <section className="section bg-secondary/40">
-        <div className="container-x">
-          <h2 className="text-center text-3xl sm:text-4xl font-bold mb-12">{t("voices.title")}</h2>
-          <div className="grid gap-5 md:grid-cols-3">
-            {[
-              { q: lang === "fr" ? "Le soutien à l'assurance santé de ma famille a changé nos vies. AGAKURA est plus qu'une ONG, c'est une famille." : "The support for my family's health insurance changed our lives. AGAKURA is more than an NGO, it's a family.", n: "Jean-Claude B.", r: lang === "fr" ? "Bénéficiaire" : "Program Beneficiary" },
-              { q: lang === "fr" ? "Grâce à la formation à l'école agricole, je gère une aviculture durable. Je suis enfin indépendante." : "Thanks to the farm school training, I now run a sustainable poultry business. I am finally independent.", n: "Marie-Rose N.", r: lang === "fr" ? "Diplômée jeunesse" : "Youth Graduate" },
-              { q: lang === "fr" ? "Une équipe dévouée qui sert Makebuko depuis 1995. Leur impact est visible partout." : "A dedicated team that has been serving Makebuko since 1995. Their impact is visible everywhere.", n: "Simon A.", r: lang === "fr" ? "Leader communautaire" : "Community Leader" },
-            ].map((v) => (
-              <div key={v.n} className="card-soft p-6">
-                <p className="text-sm italic text-foreground/80">"{v.q}"</p>
-                <div className="mt-5 flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-primary/10 grid place-items-center font-bold text-primary">{v.n[0]}</div>
-                  <div>
-                    <div className="text-sm font-semibold">{v.n}</div>
-                    <div className="text-xs text-muted-foreground">{v.r}</div>
-                  </div>
-                </div>
-              </div>
             ))}
           </div>
         </div>

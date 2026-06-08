@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { useI18n } from "@/lib/i18n";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
@@ -13,17 +15,20 @@ export const Route = createFileRoute("/team")({
   component: Team,
 });
 
-const members = [
-  { n: "Jean-Marie N.", r: { fr: "Directeur exécutif", en: "Executive Director" } },
-  { n: "Claudine M.", r: { fr: "Coordinatrice programmes", en: "Programs Coordinator" } },
-  { n: "Patrick K.", r: { fr: "Responsable jeunesse", en: "Youth Officer" } },
-  { n: "Élise B.", r: { fr: "Inclusion des femmes", en: "Women's Inclusion Lead" } },
-  { n: "Désiré H.", r: { fr: "Environnement", en: "Environment Lead" } },
-  { n: "Sandrine I.", r: { fr: "Santé communautaire", en: "Community Health" } },
-];
-
 function Team() {
   const { t, lang } = useI18n();
+  const { data } = useQuery({
+    queryKey: ["team_members"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("team_members")
+        .select("*")
+        .eq("published", true)
+        .order("sort_order");
+      return data ?? [];
+    },
+  });
+  const members = data ?? [];
   return (
     <section className="section">
       <div className="container-x">
@@ -34,13 +39,20 @@ function Team() {
         </div>
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {members.map((m) => (
-            <div key={m.n} className="card-soft p-6 flex items-center gap-4">
-              <div className="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-primary to-accent text-white font-bold text-xl">
-                {m.n.split(" ").map((s) => s[0]).join("")}
-              </div>
+            <div key={m.id} className="card-soft p-6 flex items-center gap-4">
+              {m.photo_url ? (
+                <img src={m.photo_url} alt={m.name} className="h-16 w-16 rounded-full object-cover" />
+              ) : (
+                <div className="grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-primary to-accent text-white font-bold text-xl">
+                  {m.name.split(" ").map((s) => s[0]).join("").slice(0, 2)}
+                </div>
+              )}
               <div>
-                <div className="font-bold">{m.n}</div>
-                <div className="text-sm text-muted-foreground">{lang === "fr" ? m.r.fr : m.r.en}</div>
+                <div className="font-bold">{m.name}</div>
+                <div className="text-sm text-muted-foreground">{lang === "fr" ? m.role_fr : m.role_en}</div>
+                {(lang === "fr" ? m.bio_fr : m.bio_en) && (
+                  <div className="text-xs text-muted-foreground mt-1">{lang === "fr" ? m.bio_fr : m.bio_en}</div>
+                )}
               </div>
             </div>
           ))}

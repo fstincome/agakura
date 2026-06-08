@@ -17,9 +17,12 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminNewsRouteImport } from './routes/admin.news'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
+import { Route as AdminHeroRouteImport } from './routes/admin.hero'
+import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as ApiPublicSetupAdminRouteImport } from './routes/api/public/setup-admin'
 
 const TeamRoute = TeamRouteImport.update({
@@ -62,6 +65,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminTeamRoute = AdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProjectsRoute = AdminProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
@@ -75,6 +83,16 @@ const AdminNewsRoute = AdminNewsRouteImport.update({
 const AdminMessagesRoute = AdminMessagesRouteImport.update({
   id: '/messages',
   path: '/messages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHeroRoute = AdminHeroRouteImport.update({
+  id: '/hero',
+  path: '/hero',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentRoute = AdminContentRouteImport.update({
+  id: '/content',
+  path: '/content',
   getParentRoute: () => AdminRoute,
 } as any)
 const ApiPublicSetupAdminRoute = ApiPublicSetupAdminRouteImport.update({
@@ -92,9 +110,12 @@ export interface FileRoutesByFullPath {
   '/news': typeof NewsRoute
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/hero': typeof AdminHeroRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
+  '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
 }
 export interface FileRoutesByTo {
@@ -106,9 +127,12 @@ export interface FileRoutesByTo {
   '/news': typeof NewsRoute
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/hero': typeof AdminHeroRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
+  '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
 }
 export interface FileRoutesById {
@@ -121,9 +145,12 @@ export interface FileRoutesById {
   '/news': typeof NewsRoute
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
+  '/admin/content': typeof AdminContentRoute
+  '/admin/hero': typeof AdminHeroRoute
   '/admin/messages': typeof AdminMessagesRoute
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
+  '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
 }
 export interface FileRouteTypes {
@@ -137,9 +164,12 @@ export interface FileRouteTypes {
     | '/news'
     | '/projects'
     | '/team'
+    | '/admin/content'
+    | '/admin/hero'
     | '/admin/messages'
     | '/admin/news'
     | '/admin/projects'
+    | '/admin/team'
     | '/api/public/setup-admin'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -151,9 +181,12 @@ export interface FileRouteTypes {
     | '/news'
     | '/projects'
     | '/team'
+    | '/admin/content'
+    | '/admin/hero'
     | '/admin/messages'
     | '/admin/news'
     | '/admin/projects'
+    | '/admin/team'
     | '/api/public/setup-admin'
   id:
     | '__root__'
@@ -165,9 +198,12 @@ export interface FileRouteTypes {
     | '/news'
     | '/projects'
     | '/team'
+    | '/admin/content'
+    | '/admin/hero'
     | '/admin/messages'
     | '/admin/news'
     | '/admin/projects'
+    | '/admin/team'
     | '/api/public/setup-admin'
   fileRoutesById: FileRoutesById
 }
@@ -241,6 +277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/team': {
+      id: '/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AdminTeamRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/projects': {
       id: '/admin/projects'
       path: '/projects'
@@ -262,6 +305,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMessagesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/hero': {
+      id: '/admin/hero'
+      path: '/hero'
+      fullPath: '/admin/hero'
+      preLoaderRoute: typeof AdminHeroRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content': {
+      id: '/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminContentRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/api/public/setup-admin': {
       id: '/api/public/setup-admin'
       path: '/api/public/setup-admin'
@@ -273,15 +330,21 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminContentRoute: typeof AdminContentRoute
+  AdminHeroRoute: typeof AdminHeroRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
   AdminNewsRoute: typeof AdminNewsRoute
   AdminProjectsRoute: typeof AdminProjectsRoute
+  AdminTeamRoute: typeof AdminTeamRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminContentRoute: AdminContentRoute,
+  AdminHeroRoute: AdminHeroRoute,
   AdminMessagesRoute: AdminMessagesRoute,
   AdminNewsRoute: AdminNewsRoute,
   AdminProjectsRoute: AdminProjectsRoute,
+  AdminTeamRoute: AdminTeamRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -300,3 +363,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

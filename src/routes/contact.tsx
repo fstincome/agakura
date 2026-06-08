@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useI18n } from "@/lib/i18n";
+import { useSiteContent } from "@/lib/site-content";
 import { supabase } from "@/integrations/supabase/client";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/contact")({
 
 function Contact() {
   const { t } = useI18n();
+  const { get } = useSiteContent();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
@@ -40,9 +42,9 @@ function Contact() {
           <h1 className="mt-2 text-4xl sm:text-5xl font-bold">{t("contact.title")}</h1>
           <p className="mt-4 text-muted-foreground">{t("contact.sub")}</p>
           <div className="mt-8 space-y-4">
-            <Item icon={<Phone className="h-4 w-4" />} label="(+257) 61 869 718" />
-            <Item icon={<Mail className="h-4 w-4" />} label="contact@agakura.bi" />
-            <Item icon={<MapPin className="h-4 w-4" />} label="Makebuko, Gitega, Burundi" />
+            <Item icon={<Phone className="h-4 w-4" />} label={get("contact.phone", "(+257) 61 869 718")} />
+            <Item icon={<Mail className="h-4 w-4" />} label={get("contact.email", "contact@agakura.bi")} />
+            <Item icon={<MapPin className="h-4 w-4" />} label={get("contact.address", "Makebuko, Gitega, Burundi")} />
           </div>
         </div>
         <form onSubmit={submit} className="card-soft p-6 sm:p-8 space-y-4">
