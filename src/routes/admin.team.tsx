@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Trash2, Save, Pencil } from "lucide-react";
 import { LangTabs, AdminInput, AdminTextArea } from "@/components/admin/LangTabs";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 export const Route = createFileRoute("/admin/team")({ component: AdminTeam });
 
@@ -71,7 +72,7 @@ function AdminTeam() {
               <AdminInput label="Name" value={editing.name} onChange={(v) => setEditing({ ...editing, name: v })} />
               <AdminInput label="Sort order" type="number" value={String(editing.sort_order)} onChange={(v) => setEditing({ ...editing, sort_order: Number(v) || 0 })} />
             </div>
-            <AdminInput label="Photo URL" value={editing.photo_url ?? ""} onChange={(v) => setEditing({ ...editing, photo_url: v })} />
+            <ImageUpload label="Photo" value={editing.photo_url ?? ""} onChange={(v) => setEditing({ ...editing, photo_url: v })} />
             <LangTabs
               fr={
                 <>

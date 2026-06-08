@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Trash2, Save, Pencil } from "lucide-react";
 import { LangTabs, AdminInput, AdminTextArea } from "@/components/admin/LangTabs";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 export const Route = createFileRoute("/admin/news")({ component: AdminNews });
 
@@ -72,7 +73,7 @@ function AdminNews() {
               <AdminInput label="Slug" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <AdminInput label="Date" type="date" value={editing.published_at.slice(0, 10)} onChange={(v) => setEditing({ ...editing, published_at: new Date(v).toISOString() })} />
             </div>
-            <AdminInput label="Image URL" value={editing.image_url ?? ""} onChange={(v) => setEditing({ ...editing, image_url: v })} />
+            <ImageUpload label="Cover image" value={editing.image_url ?? ""} onChange={(v) => setEditing({ ...editing, image_url: v })} />
             <LangTabs
               fr={
                 <>
