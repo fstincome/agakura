@@ -10,12 +10,21 @@ export const Route = createFileRoute("/admin/team")({ component: AdminTeam });
 
 type Row = {
   id: string; name: string;
+  first_name: string | null; last_name: string | null;
   role_fr: string | null; role_en: string | null;
+  position_fr: string | null; position_en: string | null;
   bio_fr: string | null; bio_en: string | null;
   photo_url: string | null;
+  linkedin_url: string | null; twitter_url: string | null;
   sort_order: number; published: boolean;
 };
-const empty: Row = { id: "", name: "", role_fr: "", role_en: "", bio_fr: "", bio_en: "", photo_url: "", sort_order: 0, published: true };
+const empty: Row = {
+  id: "", name: "", first_name: "", last_name: "",
+  role_fr: "", role_en: "", position_fr: "", position_en: "",
+  bio_fr: "", bio_en: "", photo_url: "",
+  linkedin_url: "", twitter_url: "",
+  sort_order: 0, published: true,
+};
 
 function AdminTeam() {
   const [rows, setRows] = useState<Row[]>([]);
@@ -29,6 +38,10 @@ function AdminTeam() {
   const save = async () => {
     if (!editing) return;
     const { id, ...rest } = editing;
+    // Auto-fill name from first/last if empty
+    if (!rest.name && (rest.first_name || rest.last_name)) {
+      rest.name = [rest.first_name, rest.last_name].filter(Boolean).join(" ");
+    }
     const op = id ? supabase.from("team_members").update(rest).eq("id", id) : supabase.from("team_members").insert(rest);
     const { error } = await op;
     if (error) return toast.error(error.message);
@@ -47,12 +60,12 @@ function AdminTeam() {
       </div>
       <div className="card-soft overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="bg-secondary/60 text-left"><tr><th className="p-3">Name</th><th className="p-3">Role</th><th className="p-3">Pub</th><th className="p-3"></th></tr></thead>
+          <thead className="bg-secondary/60 text-left"><tr><th className="p-3">Name</th><th className="p-3">Position</th><th className="p-3">Pub</th><th className="p-3"></th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} className="border-t border-border">
-                <td className="p-3 font-medium">{r.name}</td>
-                <td className="p-3 text-muted-foreground">{r.role_fr || r.role_en}</td>
+                <td className="p-3 font-medium">{r.name || [r.first_name, r.last_name].filter(Boolean).join(" ")}</td>
+                <td className="p-3 text-muted-foreground">{r.position_fr || r.position_en || r.role_fr || r.role_en}</td>
                 <td className="p-3">{r.published ? "✓" : "—"}</td>
                 <td className="p-3 text-right space-x-2">
                   <button onClick={() => setEditing(r)} className="text-primary"><Pencil className="h-4 w-4 inline" /></button>
@@ -69,20 +82,28 @@ function AdminTeam() {
           <div className="bg-card rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-auto space-y-3" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-lg font-bold">{editing.id ? "Edit" : "New"} member</h3>
             <div className="grid sm:grid-cols-2 gap-3">
-              <AdminInput label="Name" value={editing.name} onChange={(v) => setEditing({ ...editing, name: v })} />
+              <AdminInput label="Prénom / First name" value={editing.first_name ?? ""} onChange={(v) => setEditing({ ...editing, first_name: v })} />
+              <AdminInput label="Nom / Last name" value={editing.last_name ?? ""} onChange={(v) => setEditing({ ...editing, last_name: v })} />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <AdminInput label="Display name (optional)" value={editing.name} onChange={(v) => setEditing({ ...editing, name: v })} />
               <AdminInput label="Sort order" type="number" value={String(editing.sort_order)} onChange={(v) => setEditing({ ...editing, sort_order: Number(v) || 0 })} />
             </div>
-            <ImageUpload label="Photo" value={editing.photo_url ?? ""} onChange={(v) => setEditing({ ...editing, photo_url: v })} />
+            <ImageUpload label="Profile photo" value={editing.photo_url ?? ""} onChange={(v) => setEditing({ ...editing, photo_url: v })} />
+            <div className="grid sm:grid-cols-2 gap-3">
+              <AdminInput label="LinkedIn URL" value={editing.linkedin_url ?? ""} onChange={(v) => setEditing({ ...editing, linkedin_url: v })} />
+              <AdminInput label="Twitter / X URL" value={editing.twitter_url ?? ""} onChange={(v) => setEditing({ ...editing, twitter_url: v })} />
+            </div>
             <LangTabs
               fr={
                 <>
-                  <AdminInput label="Rôle (FR)" value={editing.role_fr ?? ""} onChange={(v) => setEditing({ ...editing, role_fr: v })} />
+                  <AdminInput label="Poste (FR)" value={editing.position_fr ?? ""} onChange={(v) => setEditing({ ...editing, position_fr: v })} />
                   <AdminTextArea label="Bio (FR)" value={editing.bio_fr ?? ""} onChange={(v) => setEditing({ ...editing, bio_fr: v })} />
                 </>
               }
               en={
                 <>
-                  <AdminInput label="Role (EN)" value={editing.role_en ?? ""} onChange={(v) => setEditing({ ...editing, role_en: v })} />
+                  <AdminInput label="Position (EN)" value={editing.position_en ?? ""} onChange={(v) => setEditing({ ...editing, position_en: v })} />
                   <AdminTextArea label="Bio (EN)" value={editing.bio_en ?? ""} onChange={(v) => setEditing({ ...editing, bio_en: v })} />
                 </>
               }
