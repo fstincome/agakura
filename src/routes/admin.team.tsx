@@ -58,23 +58,45 @@ function AdminTeam() {
         <h2 className="text-xl font-bold">Team</h2>
         <button onClick={() => setEditing(empty)} className="btn-primary"><Plus className="h-4 w-4" />New</button>
       </div>
-      <div className="card-soft overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-secondary/60 text-left"><tr><th className="p-3">Name</th><th className="p-3">Position</th><th className="p-3">Pub</th><th className="p-3"></th></tr></thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.id} className="border-t border-border">
-                <td className="p-3 font-medium">{r.name || [r.first_name, r.last_name].filter(Boolean).join(" ")}</td>
-                <td className="p-3 text-muted-foreground">{r.position_fr || r.position_en || r.role_fr || r.role_en}</td>
-                <td className="p-3">{r.published ? "✓" : "—"}</td>
-                <td className="p-3 text-right space-x-2">
-                  <button onClick={() => setEditing(r)} className="text-primary"><Pencil className="h-4 w-4 inline" /></button>
-                  <button onClick={() => remove(r.id)} className="text-destructive"><Trash2 className="h-4 w-4 inline" /></button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {rows.map((r) => {
+          const fullName = [r.first_name, r.last_name].filter(Boolean).join(" ") || r.name;
+          return (
+            <div key={r.id} className="card-soft overflow-hidden flex flex-col">
+              {r.photo_url ? (
+                <img src={r.photo_url} alt={fullName} className="w-full aspect-[4/3] object-cover" />
+              ) : (
+                <div className="w-full aspect-[4/3] grid place-items-center bg-gradient-to-br from-primary to-accent text-white font-bold text-3xl">
+                  {fullName.split(" ").map((s) => s[0]).join("").slice(0, 2)}
+                </div>
+              )}
+              <div className="p-4 flex flex-col gap-2 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <div className="font-bold">{fullName}</div>
+                    <div className="text-xs text-primary font-medium">{r.position_fr || r.position_en || r.role_fr || r.role_en}</div>
+                  </div>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full ${r.published ? "bg-primary/15 text-primary" : "bg-secondary text-muted-foreground"}`}>{r.published ? "Publié" : "Brouillon"}</span>
+                </div>
+                {(r.bio_fr || r.bio_en) && (
+                  <div className="space-y-1.5 text-xs text-muted-foreground">
+                    {r.bio_fr && <p className="line-clamp-3"><span className="font-semibold text-foreground/70">FR:</span> {r.bio_fr}</p>}
+                    {r.bio_en && <p className="line-clamp-3"><span className="font-semibold text-foreground/70">EN:</span> {r.bio_en}</p>}
+                  </div>
+                )}
+                <div className="flex flex-wrap gap-2 text-[11px] text-muted-foreground">
+                  {r.linkedin_url && <a href={r.linkedin_url} target="_blank" rel="noreferrer" className="hover:text-primary truncate max-w-[140px]">LinkedIn ↗</a>}
+                  {r.twitter_url && <a href={r.twitter_url} target="_blank" rel="noreferrer" className="hover:text-primary truncate max-w-[140px]">Twitter ↗</a>}
+                </div>
+                <div className="flex gap-2 mt-auto pt-3 border-t border-border">
+                  <button onClick={() => setEditing(r)} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"><Pencil className="h-3.5 w-3.5" />Éditer</button>
+                  <button onClick={() => remove(r.id)} className="inline-flex items-center gap-1 text-xs font-semibold text-destructive hover:underline ml-auto"><Trash2 className="h-3.5 w-3.5" />Supprimer</button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+        {rows.length === 0 && <p className="text-sm text-muted-foreground">Aucun membre.</p>}
       </div>
 
       {editing && (
