@@ -58,40 +58,37 @@ function Team() {
           <h1 className="mt-2 text-4xl sm:text-5xl font-bold">{t("team.title")}</h1>
           <p className="mt-4 text-muted-foreground">{t("team.sub")}</p>
         </div>
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {members.map((m) => (
-            <div key={m.id} className="card-soft p-6 flex flex-col items-center text-center gap-3">
+            <div key={m.id} className="card-soft overflow-hidden flex flex-col">
               {m.photo_url ? (
-                <img src={m.photo_url} alt={displayName(m)} className="h-24 w-24 rounded-full object-cover ring-2 ring-primary/20" />
+                <img src={m.photo_url} alt={displayName(m)} className="w-full aspect-[4/3] object-cover" />
               ) : (
-                <div className="grid h-24 w-24 place-items-center rounded-full bg-gradient-to-br from-primary to-accent text-white font-bold text-2xl">
+                <div className="w-full aspect-[4/3] grid place-items-center bg-gradient-to-br from-primary to-accent text-white font-bold text-4xl">
                   {displayName(m).split(" ").map((s) => s[0]).join("").slice(0, 2)}
                 </div>
               )}
-              <div>
-                <div className="font-bold">{displayName(m)}</div>
-                <div className="text-sm text-muted-foreground">{position(m)}</div>
-              </div>
-              <div className="flex items-center gap-3 mt-1">
-                {m.linkedin_url && (
-                  <a href={m.linkedin_url} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary">
-                    <Linkedin className="h-4 w-4" />
-                  </a>
+              <div className="p-5 flex flex-col gap-3 flex-1">
+                <div>
+                  <div className="font-bold text-lg">{displayName(m)}</div>
+                  <div className="text-sm text-primary font-medium">{position(m)}</div>
+                </div>
+                {bio(m) && (
+                  <p className="text-sm text-muted-foreground whitespace-pre-line">{bio(m)}</p>
                 )}
-                {m.twitter_url && (
-                  <a href={m.twitter_url} target="_blank" rel="noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-primary">
-                    <Twitter className="h-4 w-4" />
-                  </a>
-                )}
+                <div className="flex items-center gap-3 mt-auto pt-2">
+                  {m.linkedin_url && (
+                    <a href={m.linkedin_url} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary">
+                      <Linkedin className="h-4 w-4" />
+                    </a>
+                  )}
+                  {m.twitter_url && (
+                    <a href={m.twitter_url} target="_blank" rel="noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-primary">
+                      <Twitter className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
               </div>
-              {bio(m) && (
-                <button
-                  onClick={() => setOpenId(m.id)}
-                  className="mt-2 text-sm font-medium text-primary hover:underline"
-                >
-                  {lang === "fr" ? "Voir bio" : "View bio"}
-                </button>
-              )}
             </div>
           ))}
         </div>
