@@ -23,6 +23,8 @@ import { Route as AdminNewsRouteImport } from './routes/admin.news'
 import { Route as AdminMessagesRouteImport } from './routes/admin.messages'
 import { Route as AdminHeroRouteImport } from './routes/admin.hero'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as ApiPublicTrackVisitRouteImport } from './routes/api/public/track-visit'
 import { Route as ApiPublicSetupAdminRouteImport } from './routes/api/public/setup-admin'
 
 const TeamRoute = TeamRouteImport.update({
@@ -95,6 +97,16 @@ const AdminContentRoute = AdminContentRouteImport.update({
   path: '/content',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ApiPublicTrackVisitRoute = ApiPublicTrackVisitRouteImport.update({
+  id: '/api/public/track-visit',
+  path: '/api/public/track-visit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSetupAdminRoute = ApiPublicSetupAdminRouteImport.update({
   id: '/api/public/setup-admin',
   path: '/api/public/setup-admin',
@@ -110,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/news': typeof NewsRoute
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/hero': typeof AdminHeroRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -117,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
+  '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -127,6 +141,7 @@ export interface FileRoutesByTo {
   '/news': typeof NewsRoute
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/hero': typeof AdminHeroRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -134,6 +149,7 @@ export interface FileRoutesByTo {
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
+  '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -145,6 +161,7 @@ export interface FileRoutesById {
   '/news': typeof NewsRoute
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/content': typeof AdminContentRoute
   '/admin/hero': typeof AdminHeroRoute
   '/admin/messages': typeof AdminMessagesRoute
@@ -152,6 +169,7 @@ export interface FileRoutesById {
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
+  '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -164,6 +182,7 @@ export interface FileRouteTypes {
     | '/news'
     | '/projects'
     | '/team'
+    | '/admin/analytics'
     | '/admin/content'
     | '/admin/hero'
     | '/admin/messages'
@@ -171,6 +190,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/team'
     | '/api/public/setup-admin'
+    | '/api/public/track-visit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -181,6 +201,7 @@ export interface FileRouteTypes {
     | '/news'
     | '/projects'
     | '/team'
+    | '/admin/analytics'
     | '/admin/content'
     | '/admin/hero'
     | '/admin/messages'
@@ -188,6 +209,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/team'
     | '/api/public/setup-admin'
+    | '/api/public/track-visit'
   id:
     | '__root__'
     | '/'
@@ -198,6 +220,7 @@ export interface FileRouteTypes {
     | '/news'
     | '/projects'
     | '/team'
+    | '/admin/analytics'
     | '/admin/content'
     | '/admin/hero'
     | '/admin/messages'
@@ -205,6 +228,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/team'
     | '/api/public/setup-admin'
+    | '/api/public/track-visit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -217,6 +241,7 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   TeamRoute: typeof TeamRoute
   ApiPublicSetupAdminRoute: typeof ApiPublicSetupAdminRoute
+  ApiPublicTrackVisitRoute: typeof ApiPublicTrackVisitRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -319,6 +344,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminContentRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/api/public/track-visit': {
+      id: '/api/public/track-visit'
+      path: '/api/public/track-visit'
+      fullPath: '/api/public/track-visit'
+      preLoaderRoute: typeof ApiPublicTrackVisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/setup-admin': {
       id: '/api/public/setup-admin'
       path: '/api/public/setup-admin'
@@ -330,6 +369,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminContentRoute: typeof AdminContentRoute
   AdminHeroRoute: typeof AdminHeroRoute
   AdminMessagesRoute: typeof AdminMessagesRoute
@@ -339,6 +379,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminContentRoute: AdminContentRoute,
   AdminHeroRoute: AdminHeroRoute,
   AdminMessagesRoute: AdminMessagesRoute,
@@ -359,6 +400,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   TeamRoute: TeamRoute,
   ApiPublicSetupAdminRoute: ApiPublicSetupAdminRoute,
+  ApiPublicTrackVisitRoute: ApiPublicTrackVisitRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -85,6 +85,21 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
+  useEffect(() => {
+    const track = (path: string) => {
+      if (path.startsWith("/admin") || path.startsWith("/auth") || path.startsWith("/api")) return;
+      fetch("/api/public/track-visit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path, referrer: document.referrer || "" }),
+        keepalive: true,
+      }).catch(() => {});
+    };
+    track(window.location.pathname);
+    const unsub = router.subscribe("onResolved", ({ toLocation }) => track(toLocation.pathname));
+    return () => unsub();
+  }, [router]);
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>

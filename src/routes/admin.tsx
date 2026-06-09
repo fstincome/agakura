@@ -2,7 +2,7 @@ import { createFileRoute, Outlet, Link, useNavigate, useRouterState } from "@tan
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
-import { LayoutDashboard, Rocket, Newspaper, Mail, LogOut, Image, Users, FileText } from "lucide-react";
+import { LayoutDashboard, Rocket, Newspaper, Mail, LogOut, Image, Users, FileText, BarChart3 } from "lucide-react";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
@@ -40,6 +40,7 @@ function AdminLayout() {
     { to: "/admin/team", label: t("nav.team"), icon: Users },
     { to: "/admin/content", label: "Site content", icon: FileText },
     { to: "/admin/messages", label: "Messages", icon: Mail },
+    { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   ];
 
   return (
