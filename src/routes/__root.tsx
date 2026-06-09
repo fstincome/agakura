@@ -101,13 +101,15 @@ function RootComponent() {
     const unsub = router.subscribe("onResolved", ({ toLocation }) => track(toLocation.pathname));
     return () => unsub();
   }, [router]);
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  const isAdmin = path.startsWith("/admin") || path.startsWith("/auth");
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
         <div className="flex min-h-screen flex-col">
-          <Header />
+          {!isAdmin && <Header />}
           <main className="flex-1"><Outlet /></main>
-          <Footer />
+          {!isAdmin && <Footer />}
         </div>
         <Toaster position="top-right" />
       </I18nProvider>
