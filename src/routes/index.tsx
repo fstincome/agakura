@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery, useQuery } from "@tanstack/react-query";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { HeroCarousel } from "@/components/site/HeroCarousel";
@@ -17,31 +17,21 @@ const getHeroSlides = createServerFn({ method: "GET" })
   });
 
 export const Route = createFileRoute("/")({
-  head: ({ loaderData }) => {
-    const firstImage = (loaderData as { slides?: Array<{ image_url?: string | null }> })?.slides?.[0]?.image_url;
-    const links: Array<{ rel: string; href: string; as?: string; fetchpriority?: string; type?: string }> = [
-      { rel: "stylesheet", href: "../styles.css?url" },
-    ];
-    if (firstImage) {
-      links.push({ rel: "preload", href: firstImage, as: "image", fetchpriority: "high" });
-    }
-    return {
-      meta: [
-        { title: "AGAKURA Jeunesse Providence — Community Development NGO Burundi" },
-        { name: "description", content: "Education, health, youth empowerment and environmental programs in Burundi since 1995." },
-        { property: "og:title", content: "AGAKURA Jeunesse Providence" },
-        { property: "og:description", content: "Community Development & Youth Empowerment NGO in Burundi." },
-        { property: "og:image", content: "https://agakura.bi/visite.jpg" },
-      ],
-      links,
-    };
-  },
+  head: () => ({
+    meta: [
+      { title: "AGAKURA Jeunesse Providence — Community Development NGO Burundi" },
+      { name: "description", content: "Education, health, youth empowerment and environmental programs in Burundi since 1995." },
+      { property: "og:title", content: "AGAKURA Jeunesse Providence" },
+      { property: "og:description", content: "Community Development & Youth Empowerment NGO in Burundi." },
+      { property: "og:image", content: "https://agakura.bi/visite.jpg" },
+    ],
+  }),
   loader: async ({ context }) => {
     await context.queryClient.ensureQueryData({
       queryKey: ["hero_slides"],
       queryFn: () => getHeroSlides({ data: undefined }),
     });
-    return { slides: [] };
+    return {};
   },
   component: Home,
 });
