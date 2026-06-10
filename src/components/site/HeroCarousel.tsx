@@ -70,11 +70,13 @@ export function HeroCarousel() {
   return (
     <section className="container-x pt-8">
       <div className="relative overflow-hidden rounded-3xl">
-        {list.map((slide, idx) => (
+        {list.map((slide: Slide, idx: number) => (
           <img
             key={slide.id}
             src={slide.image_url ?? ""}
             alt=""
+            loading={idx === i ? "eager" : "lazy"}
+            fetchPriority={idx === i ? "high" : "low"}
             className={`h-[420px] sm:h-[560px] w-full object-cover transition-opacity duration-1000 ${idx === i ? "opacity-100" : "opacity-0 absolute inset-0"}`}
           />
         ))}
