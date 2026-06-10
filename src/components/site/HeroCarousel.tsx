@@ -49,6 +49,19 @@ export function HeroCarousel() {
     );
   }
 
+  // Preload first image for faster LCP
+  useEffect(() => {
+    const firstImage = list[0]?.image_url;
+    if (!firstImage) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = firstImage;
+    link.fetchPriority = "high";
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, [list[0]?.image_url]);
+
   const s = list[i] ?? list[0];
   const title = lang === "fr" ? s.title_fr : s.title_en;
   const sub = lang === "fr" ? s.subtitle_fr : s.subtitle_en;
