@@ -120,7 +120,7 @@ export function HeroCarousel() {
               <ChevronRight className="h-5 w-5" />
             </button>
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {list.map((_, idx) => (
+              {list.map((_s: Slide, idx: number) => (
                 <button
                   key={idx}
                   aria-label={`Slide ${idx + 1}`}
