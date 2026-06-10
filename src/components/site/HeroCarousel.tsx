@@ -4,11 +4,20 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { createServerFn } from "@tanstack/react-start";
+
+type Slide = {
+  id: string;
+  title_fr: string; title_en: string;
+  subtitle_fr: string | null; subtitle_en: string | null;
+  cta_label_fr: string | null; cta_label_en: string | null;
+  cta_href: string | null;
+  image_url: string | null;
+  sort_order: number; published: boolean;
+};
 
 export function HeroCarousel() {
   const { lang, t } = useI18n();
-  const { data: slides } = useQuery({
+  const { data: slides } = useSuspenseQuery({
     queryKey: ["hero_slides"],
     queryFn: async () => {
       const { data } = await supabase
@@ -16,7 +25,7 @@ export function HeroCarousel() {
         .select("*")
         .eq("published", true)
         .order("sort_order");
-      return data ?? [];
+      return (data as Slide[]) ?? [];
     },
   });
   const list = slides ?? [];
