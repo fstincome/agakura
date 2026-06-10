@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { createServerFn } from "@tanstack/react-start";
 
 export function HeroCarousel() {
   const { lang, t } = useI18n();
