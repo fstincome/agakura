@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
+type Slide = {
+  id: string;
+  title_fr: string; title_en: string;
+  subtitle_fr: string | null; subtitle_en: string | null;
+  cta_label_fr: string | null; cta_label_en: string | null;
+  cta_href: string | null;
+  image_url: string | null;
+  sort_order: number; published: boolean;
+};
+
 export function HeroCarousel() {
   const { lang, t } = useI18n();
-  const { data: slides } = useQuery({
+  const { data: slides } = useSuspenseQuery({
     queryKey: ["hero_slides"],
     queryFn: async () => {
       const { data } = await supabase
@@ -15,7 +25,7 @@ export function HeroCarousel() {
         .select("*")
         .eq("published", true)
         .order("sort_order");
-      return data ?? [];
+      return (data as Slide[]) ?? [];
     },
   });
   const list = slides ?? [];
@@ -39,6 +49,19 @@ export function HeroCarousel() {
     );
   }
 
+  // Preload first image for faster LCP
+  useEffect(() => {
+    const firstImage = list[0]?.image_url;
+    if (!firstImage) return;
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = firstImage;
+    link.fetchPriority = "high";
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, [list[0]?.image_url]);
+
   const s = list[i] ?? list[0];
   const title = lang === "fr" ? s.title_fr : s.title_en;
   const sub = lang === "fr" ? s.subtitle_fr : s.subtitle_en;
@@ -47,11 +70,13 @@ export function HeroCarousel() {
   return (
     <section className="container-x pt-8">
       <div className="relative overflow-hidden rounded-3xl">
-        {list.map((slide, idx) => (
+        {list.map((slide: Slide, idx: number) => (
           <img
             key={slide.id}
             src={slide.image_url ?? ""}
             alt=""
+            loading={idx === i ? "eager" : "lazy"}
+            fetchPriority={idx === i ? "high" : "low"}
             className={`h-[420px] sm:h-[560px] w-full object-cover transition-opacity duration-1000 ${idx === i ? "opacity-100" : "opacity-0 absolute inset-0"}`}
           />
         ))}
@@ -95,7 +120,7 @@ export function HeroCarousel() {
               <ChevronRight className="h-5 w-5" />
             </button>
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-              {list.map((_, idx) => (
+              {list.map((_s: Slide, idx: number) => (
                 <button
                   key={idx}
                   aria-label={`Slide ${idx + 1}`}
