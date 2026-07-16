@@ -194,6 +194,7 @@ export type Database = {
           created_at: string
           excerpt_en: string | null
           excerpt_fr: string | null
+          gallery_urls: string[] | null
           id: string
           image_url: string | null
           published: boolean
@@ -211,6 +212,7 @@ export type Database = {
           created_at?: string
           excerpt_en?: string | null
           excerpt_fr?: string | null
+          gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
           published?: boolean
@@ -228,6 +230,7 @@ export type Database = {
           created_at?: string
           excerpt_en?: string | null
           excerpt_fr?: string | null
+          gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
           published?: boolean
