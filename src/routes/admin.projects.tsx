@@ -94,6 +94,16 @@ function AdminProjects() {
               <AdminInput label="Slug" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <AdminInput label="Sort order" type="number" value={String(editing.sort_order)} onChange={(v) => setEditing({ ...editing, sort_order: Number(v) || 0 })} />
             </div>
+            <div>
+              <label className="text-xs font-medium mb-1 block">Programme parent</label>
+              <select
+                value={editing.program_slug ?? ""}
+                onChange={(e) => setEditing({ ...editing, program_slug: e.target.value || null })}
+                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+              >
+                {PROGRAMS.map((p) => (<option key={p.slug} value={p.slug}>{p.label}</option>))}
+              </select>
+            </div>
             <ImageUpload label="Cover image" value={editing.image_url ?? ""} onChange={(v) => setEditing({ ...editing, image_url: v })} />
             <LangTabs
               fr={
