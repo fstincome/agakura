@@ -197,6 +197,7 @@ export type Database = {
           gallery_urls: string[] | null
           id: string
           image_url: string | null
+          program_slug: string | null
           published: boolean
           slug: string
           sort_order: number
@@ -215,6 +216,7 @@ export type Database = {
           gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
+          program_slug?: string | null
           published?: boolean
           slug: string
           sort_order?: number
@@ -233,6 +235,7 @@ export type Database = {
           gallery_urls?: string[] | null
           id?: string
           image_url?: string | null
+          program_slug?: string | null
           published?: boolean
           slug?: string
           sort_order?: number

@@ -25,6 +25,7 @@ import { Route as AdminHeroRouteImport } from './routes/admin.hero'
 import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as ApiPublicTrackVisitRouteImport } from './routes/api/public/track-visit'
+import { Route as ApiPublicSetupAdminAdvaxenRouteImport } from './routes/api/public/setup-admin-advaxen'
 import { Route as ApiPublicSetupAdminRouteImport } from './routes/api/public/setup-admin'
 
 const TeamRoute = TeamRouteImport.update({
@@ -107,6 +108,12 @@ const ApiPublicTrackVisitRoute = ApiPublicTrackVisitRouteImport.update({
   path: '/api/public/track-visit',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicSetupAdminAdvaxenRoute =
+  ApiPublicSetupAdminAdvaxenRouteImport.update({
+    id: '/api/public/setup-admin-advaxen',
+    path: '/api/public/setup-admin-advaxen',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicSetupAdminRoute = ApiPublicSetupAdminRouteImport.update({
   id: '/api/public/setup-admin',
   path: '/api/public/setup-admin',
@@ -130,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
+  '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
   '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
 }
 export interface FileRoutesByTo {
@@ -149,6 +157,7 @@ export interface FileRoutesByTo {
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
+  '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
   '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
 }
 export interface FileRoutesById {
@@ -169,6 +178,7 @@ export interface FileRoutesById {
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
+  '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
   '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
 }
 export interface FileRouteTypes {
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/team'
     | '/api/public/setup-admin'
+    | '/api/public/setup-admin-advaxen'
     | '/api/public/track-visit'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/team'
     | '/api/public/setup-admin'
+    | '/api/public/setup-admin-advaxen'
     | '/api/public/track-visit'
   id:
     | '__root__'
@@ -228,6 +240,7 @@ export interface FileRouteTypes {
     | '/admin/projects'
     | '/admin/team'
     | '/api/public/setup-admin'
+    | '/api/public/setup-admin-advaxen'
     | '/api/public/track-visit'
   fileRoutesById: FileRoutesById
 }
@@ -241,6 +254,7 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   TeamRoute: typeof TeamRoute
   ApiPublicSetupAdminRoute: typeof ApiPublicSetupAdminRoute
+  ApiPublicSetupAdminAdvaxenRoute: typeof ApiPublicSetupAdminAdvaxenRoute
   ApiPublicTrackVisitRoute: typeof ApiPublicTrackVisitRoute
 }
 
@@ -358,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicTrackVisitRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/setup-admin-advaxen': {
+      id: '/api/public/setup-admin-advaxen'
+      path: '/api/public/setup-admin-advaxen'
+      fullPath: '/api/public/setup-admin-advaxen'
+      preLoaderRoute: typeof ApiPublicSetupAdminAdvaxenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/setup-admin': {
       id: '/api/public/setup-admin'
       path: '/api/public/setup-admin'
@@ -400,6 +421,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   TeamRoute: TeamRoute,
   ApiPublicSetupAdminRoute: ApiPublicSetupAdminRoute,
+  ApiPublicSetupAdminAdvaxenRoute: ApiPublicSetupAdminAdvaxenRoute,
   ApiPublicTrackVisitRoute: ApiPublicTrackVisitRoute,
 }
 export const routeTree = rootRouteImport

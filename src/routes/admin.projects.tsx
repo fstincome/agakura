@@ -11,6 +11,7 @@ export const Route = createFileRoute("/admin/projects")({ component: AdminProjec
 type Row = {
   id: string;
   slug: string;
+  program_slug: string | null;
   title_en: string; title_fr: string;
   category_en: string | null; category_fr: string | null;
   excerpt_en: string | null; excerpt_fr: string | null;
@@ -20,8 +21,15 @@ type Row = {
   sort_order: number;
 };
 
+const PROGRAMS = [
+  { slug: "", label: "— Aucun (c'est un programme) —" },
+  { slug: "ferme-ecole", label: "Ferme-école" },
+  { slug: "cesaco", label: "CESACO" },
+  { slug: "biodiversite-resilience-climatique", label: "Biodiversité & Résilience climatique" },
+];
+
 const empty: Row = {
-  id: "", slug: "", title_en: "", title_fr: "", category_en: "", category_fr: "",
+  id: "", slug: "", program_slug: null, title_en: "", title_fr: "", category_en: "", category_fr: "",
   excerpt_en: "", excerpt_fr: "", body_en: "", body_fr: "", image_url: "", published: true, sort_order: 0,
 };
 
@@ -85,6 +93,16 @@ function AdminProjects() {
             <div className="grid sm:grid-cols-2 gap-3">
               <AdminInput label="Slug" value={editing.slug} onChange={(v) => setEditing({ ...editing, slug: v })} />
               <AdminInput label="Sort order" type="number" value={String(editing.sort_order)} onChange={(v) => setEditing({ ...editing, sort_order: Number(v) || 0 })} />
+            </div>
+            <div>
+              <label className="text-xs font-medium mb-1 block">Programme parent</label>
+              <select
+                value={editing.program_slug ?? ""}
+                onChange={(e) => setEditing({ ...editing, program_slug: e.target.value || null })}
+                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm"
+              >
+                {PROGRAMS.map((p) => (<option key={p.slug} value={p.slug}>{p.label}</option>))}
+              </select>
             </div>
             <ImageUpload label="Cover image" value={editing.image_url ?? ""} onChange={(v) => setEditing({ ...editing, image_url: v })} />
             <LangTabs
