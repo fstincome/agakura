@@ -11,6 +11,7 @@ export const Route = createFileRoute("/admin/projects")({ component: AdminProjec
 type Row = {
   id: string;
   slug: string;
+  program_slug: string | null;
   title_en: string; title_fr: string;
   category_en: string | null; category_fr: string | null;
   excerpt_en: string | null; excerpt_fr: string | null;
@@ -20,8 +21,15 @@ type Row = {
   sort_order: number;
 };
 
+const PROGRAMS = [
+  { slug: "", label: "— Aucun (c'est un programme) —" },
+  { slug: "ferme-ecole", label: "Ferme-école" },
+  { slug: "cesaco", label: "CESACO" },
+  { slug: "biodiversite-resilience-climatique", label: "Biodiversité & Résilience climatique" },
+];
+
 const empty: Row = {
-  id: "", slug: "", title_en: "", title_fr: "", category_en: "", category_fr: "",
+  id: "", slug: "", program_slug: null, title_en: "", title_fr: "", category_en: "", category_fr: "",
   excerpt_en: "", excerpt_fr: "", body_en: "", body_fr: "", image_url: "", published: true, sort_order: 0,
 };
 
