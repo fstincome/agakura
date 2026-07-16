@@ -6,10 +6,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/projects")({
   head: () => ({
     meta: [
-      { title: "Projects — AGAKURA Jeunesse Providence" },
-      { name: "description", content: "Impact projects: vocational training, women inclusion, vulnerable support, rural development." },
-      { property: "og:title", content: "Our Projects — AGAKURA" },
-      { property: "og:description", content: "Initiatives transforming lives in rural Burundi." },
+      { title: "Programmes — AGAKURA Jeunesse Providence" },
+      { name: "description", content: "Nos trois programmes : Ferme-école, CESACO (santé communautaire & nutrition), Biodiversité & Résilience climatique." },
+      { property: "og:title", content: "Nos programmes — AGAKURA" },
+      { property: "og:description", content: "Ferme-école, CESACO et Biodiversité au service des communautés du Burundi." },
     ],
   }),
   component: Projects,
@@ -32,17 +32,39 @@ function Projects() {
           <h1 className="mt-2 text-4xl sm:text-5xl font-bold">{t("projects.title")}</h1>
           <p className="mt-4 text-muted-foreground">{t("projects.page.sub")}</p>
         </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {(data ?? []).map((p) => (
-            <article key={p.id} className="card-soft overflow-hidden">
-              {p.image_url && <img src={p.image_url} alt="" className="aspect-[4/3] w-full object-cover" />}
-              <div className="p-6">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">{lang === "fr" ? p.category_fr : p.category_en}</div>
-                <h3 className="mt-1 text-lg font-bold">{lang === "fr" ? p.title_fr : p.title_en}</h3>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-4">{lang === "fr" ? p.excerpt_fr : p.excerpt_en}</p>
-              </div>
-            </article>
-          ))}
+        <div className="mt-12 space-y-16">
+          {(data ?? []).map((p, i) => {
+            const title = lang === "fr" ? p.title_fr : p.title_en;
+            const category = lang === "fr" ? p.category_fr : p.category_en;
+            const excerpt = lang === "fr" ? p.excerpt_fr : p.excerpt_en;
+            const body = lang === "fr" ? p.body_fr : p.body_en;
+            const gallery = (p.gallery_urls ?? []) as string[];
+            const reverse = i % 2 === 1;
+            return (
+              <article key={p.id} className="grid gap-8 lg:grid-cols-2 items-start">
+                <div className={reverse ? "lg:order-2" : ""}>
+                  {p.image_url && (
+                    <img src={p.image_url} alt={title ?? ""} className="rounded-2xl w-full aspect-[4/3] object-cover" loading="lazy" />
+                  )}
+                </div>
+                <div className={reverse ? "lg:order-1" : ""}>
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">{category}</div>
+                  <h2 className="mt-1 text-2xl sm:text-3xl font-bold">{title}</h2>
+                  <p className="mt-3 text-muted-foreground">{excerpt}</p>
+                  {body && <p className="mt-3 text-sm text-foreground/90 leading-relaxed whitespace-pre-line">{body}</p>}
+                  {gallery.length > 0 && (
+                    <div className="mt-5 grid grid-cols-3 gap-2">
+                      {gallery.map((url) => (
+                        <a key={url} href={url} target="_blank" rel="noreferrer" className="block">
+                          <img src={url} alt="" className="rounded-lg aspect-square object-cover w-full hover:opacity-90 transition" loading="lazy" />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
