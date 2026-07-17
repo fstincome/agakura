@@ -48,7 +48,7 @@ function Projects() {
             const subs = subsByProgram(p.slug);
             const reverse = i % 2 === 1;
             return (
-              <section key={p.id} className="space-y-8 animate-fade-in" style={{ animationDelay: `${i * 120}ms`, animationFillMode: "both" }}>
+              <section key={p.id} id={p.slug} className="scroll-mt-24 space-y-8 animate-fade-in" style={{ animationDelay: `${i * 120}ms`, animationFillMode: "both" }}>
                 <article className="grid gap-8 lg:grid-cols-2 items-start">
                   <div className={`overflow-hidden rounded-2xl group ${reverse ? "lg:order-2" : ""}`}>
                     {p.image_url && (
