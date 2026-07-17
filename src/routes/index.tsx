@@ -39,14 +39,14 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { t, lang } = useI18n();
   const { data: projects } = useQuery({
-    queryKey: ["projects", "home"],
+    queryKey: ["projects", "home-programs"],
     queryFn: async () => {
       const { data } = await supabase
         .from("projects")
         .select("*")
         .eq("published", true)
-        .order("sort_order")
-        .limit(4);
+        .is("program_slug", null)
+        .order("sort_order");
       return data ?? [];
     },
   });
@@ -105,20 +105,23 @@ function Home() {
             <div className="eyebrow">{t("projects.eyebrow")}</div>
             <h2 className="mt-2 text-3xl sm:text-4xl font-bold">{t("projects.title")}</h2>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-3">
             {(projects ?? []).map((p) => (
-              <article key={p.id} className="card-soft overflow-hidden group">
+              <article key={p.id} className="card-soft overflow-hidden group flex flex-col">
                 <div className="aspect-[4/3] overflow-hidden bg-secondary">
                   {p.image_url && (
-                    <img src={p.image_url} alt={lang === "fr" ? p.title_fr : p.title_en} className="h-full w-full object-cover transition group-hover:scale-105" />
+                    <img src={p.image_url} alt={lang === "fr" ? p.title_fr : p.title_en} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   )}
                 </div>
-                <div className="p-5">
+                <div className="p-5 flex-1 flex flex-col">
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
                     {lang === "fr" ? p.category_fr : p.category_en}
                   </div>
-                  <h3 className="mt-1 font-bold">{lang === "fr" ? p.title_fr : p.title_en}</h3>
-                  <Link to="/projects" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                  <h3 className="mt-1 font-bold text-lg leading-snug">{lang === "fr" ? p.title_fr : p.title_en}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground line-clamp-3 flex-1">
+                    {lang === "fr" ? p.excerpt_fr : p.excerpt_en}
+                  </p>
+                  <Link to="/projects" hash={p.slug} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                     {t("projects.details")} <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
