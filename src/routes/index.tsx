@@ -39,14 +39,14 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { t, lang } = useI18n();
   const { data: projects } = useQuery({
-    queryKey: ["projects", "home"],
+    queryKey: ["projects", "home-programs"],
     queryFn: async () => {
       const { data } = await supabase
         .from("projects")
         .select("*")
         .eq("published", true)
-        .order("sort_order")
-        .limit(4);
+        .is("program_slug", null)
+        .order("sort_order");
       return data ?? [];
     },
   });
