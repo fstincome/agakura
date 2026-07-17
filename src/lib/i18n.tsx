@@ -8,7 +8,7 @@ export const dict = {
   "nav.home": { fr: "Accueil", en: "Home" },
   "nav.about": { fr: "À propos", en: "About" },
   "nav.team": { fr: "Équipe", en: "Team" },
-  "nav.projects": { fr: "Projets", en: "Projects" },
+  "nav.projects": { fr: "Programmes", en: "Programs" },
   "nav.news": { fr: "Actualités", en: "News" },
   "nav.contact": { fr: "Contact", en: "Contact" },
   "nav.admin": { fr: "Admin", en: "Admin" },
