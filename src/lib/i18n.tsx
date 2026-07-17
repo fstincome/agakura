@@ -102,8 +102,8 @@ export const dict = {
   "news.sub": { fr: "Dernières nouvelles et publications.", en: "Latest stories and updates." },
   "news.empty": { fr: "Aucune actualité pour l'instant.", en: "No news yet." },
   "projects.page.sub": {
-    fr: "Découvrez les initiatives qui transforment des vies au quotidien.",
-    en: "Discover the initiatives transforming lives every day.",
+    fr: "Nos trois programmes pour transformer durablement les communautés du Burundi.",
+    en: "Our three programs to durably transform the communities of Burundi.",
   },
   "admin.title": { fr: "Tableau de bord admin", en: "Admin dashboard" },
   "admin.logout": { fr: "Se déconnecter", en: "Sign out" },
