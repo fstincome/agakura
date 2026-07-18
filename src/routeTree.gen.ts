@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProgramsSlugRouteImport } from './routes/programs.$slug'
 import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminNewsRouteImport } from './routes/admin.news'
@@ -66,6 +67,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramsSlugRoute = ProgramsSlugRouteImport.update({
+  id: '/programs/$slug',
+  path: '/programs/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminTeamRoute = AdminTeamRouteImport.update({
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
+  '/programs/$slug': typeof ProgramsSlugRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
   '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
   '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
+  '/programs/$slug': typeof ProgramsSlugRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
   '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
   '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
+  '/programs/$slug': typeof ProgramsSlugRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
   '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
   '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/projects'
     | '/admin/team'
+    | '/programs/$slug'
     | '/api/public/setup-admin'
     | '/api/public/setup-admin-advaxen'
     | '/api/public/track-visit'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/projects'
     | '/admin/team'
+    | '/programs/$slug'
     | '/api/public/setup-admin'
     | '/api/public/setup-admin-advaxen'
     | '/api/public/track-visit'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/projects'
     | '/admin/team'
+    | '/programs/$slug'
     | '/api/public/setup-admin'
     | '/api/public/setup-admin-advaxen'
     | '/api/public/track-visit'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   NewsRoute: typeof NewsRoute
   ProjectsRoute: typeof ProjectsRoute
   TeamRoute: typeof TeamRoute
+  ProgramsSlugRoute: typeof ProgramsSlugRoute
   ApiPublicSetupAdminRoute: typeof ApiPublicSetupAdminRoute
   ApiPublicSetupAdminAdvaxenRoute: typeof ApiPublicSetupAdminAdvaxenRoute
   ApiPublicTrackVisitRoute: typeof ApiPublicTrackVisitRoute
@@ -314,6 +327,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/programs/$slug': {
+      id: '/programs/$slug'
+      path: '/programs/$slug'
+      fullPath: '/programs/$slug'
+      preLoaderRoute: typeof ProgramsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/team': {
@@ -420,6 +440,7 @@ const rootRouteChildren: RootRouteChildren = {
   NewsRoute: NewsRoute,
   ProjectsRoute: ProjectsRoute,
   TeamRoute: TeamRoute,
+  ProgramsSlugRoute: ProgramsSlugRoute,
   ApiPublicSetupAdminRoute: ApiPublicSetupAdminRoute,
   ApiPublicSetupAdminAdvaxenRoute: ApiPublicSetupAdminAdvaxenRoute,
   ApiPublicTrackVisitRoute: ApiPublicTrackVisitRoute,

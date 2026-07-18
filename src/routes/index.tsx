@@ -121,7 +121,7 @@ function Home() {
                   <p className="mt-2 text-sm text-muted-foreground line-clamp-3 flex-1">
                     {lang === "fr" ? p.excerpt_fr : p.excerpt_en}
                   </p>
-                  <Link to="/projects" hash={p.slug} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                  <Link to="/programs/$slug" params={{ slug: p.slug }} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                     {t("projects.details")} <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
