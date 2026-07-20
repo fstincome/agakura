@@ -78,8 +78,8 @@ function Team() {
                   {m.photo_url ? (
                     <img src={m.photo_url} alt={displayName(m)} className="w-full aspect-[4/3] object-cover" />
                   ) : (
-                    <div className="w-full aspect-[4/3] grid place-items-center bg-gradient-to-br from-primary to-accent text-white font-bold text-4xl">
-                      {displayName(m).split(" ").map((s) => s[0]).join("").slice(0, 2)}
+                    <div className="w-full aspect-[4/3] grid place-items-center bg-secondary text-muted-foreground">
+                      <User className="h-20 w-20" strokeWidth={1.25} />
                     </div>
                   )}
                   <div className="p-5 flex flex-col gap-3 flex-1">
