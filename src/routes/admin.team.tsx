@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Trash2, Save, Pencil } from "lucide-react";
+import { Plus, Trash2, Save, Pencil, User as UserIcon } from "lucide-react";
 import { LangTabs, AdminInput, AdminTextArea } from "@/components/admin/LangTabs";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 
@@ -66,8 +66,8 @@ function AdminTeam() {
               {r.photo_url ? (
                 <img src={r.photo_url} alt={fullName} className="w-full aspect-[4/3] object-cover" />
               ) : (
-                <div className="w-full aspect-[4/3] grid place-items-center bg-gradient-to-br from-primary to-accent text-white font-bold text-3xl">
-                  {fullName.split(" ").map((s) => s[0]).join("").slice(0, 2)}
+                <div className="w-full aspect-[4/3] grid place-items-center bg-secondary text-muted-foreground">
+                  <UserIcon className="h-16 w-16" strokeWidth={1.25} />
                 </div>
               )}
               <div className="p-4 flex flex-col gap-2 flex-1">
