@@ -18,6 +18,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProgramsSlugRouteImport } from './routes/programs.$slug'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as AdminTeamRouteImport } from './routes/admin.team'
 import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
 import { Route as AdminNewsRouteImport } from './routes/admin.news'
@@ -73,6 +74,11 @@ const ProgramsSlugRoute = ProgramsSlugRouteImport.update({
   id: '/programs/$slug',
   path: '/programs/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => NewsRoute,
 } as any)
 const AdminTeamRoute = AdminTeamRouteImport.update({
   id: '/team',
@@ -132,7 +138,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/news': typeof NewsRoute
+  '/news': typeof NewsRouteWithChildren
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
   '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
@@ -153,7 +160,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/news': typeof NewsRoute
+  '/news': typeof NewsRouteWithChildren
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
   '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
@@ -175,7 +183,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/news': typeof NewsRoute
+  '/news': typeof NewsRouteWithChildren
   '/projects': typeof ProjectsRoute
   '/team': typeof TeamRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/admin/news': typeof AdminNewsRoute
   '/admin/projects': typeof AdminProjectsRoute
   '/admin/team': typeof AdminTeamRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/programs/$slug': typeof ProgramsSlugRoute
   '/api/public/setup-admin': typeof ApiPublicSetupAdminRoute
   '/api/public/setup-admin-advaxen': typeof ApiPublicSetupAdminAdvaxenRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/projects'
     | '/admin/team'
+    | '/news/$slug'
     | '/programs/$slug'
     | '/api/public/setup-admin'
     | '/api/public/setup-admin-advaxen'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/projects'
     | '/admin/team'
+    | '/news/$slug'
     | '/programs/$slug'
     | '/api/public/setup-admin'
     | '/api/public/setup-admin-advaxen'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/admin/news'
     | '/admin/projects'
     | '/admin/team'
+    | '/news/$slug'
     | '/programs/$slug'
     | '/api/public/setup-admin'
     | '/api/public/setup-admin-advaxen'
@@ -262,7 +274,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
-  NewsRoute: typeof NewsRoute
+  NewsRoute: typeof NewsRouteWithChildren
   ProjectsRoute: typeof ProjectsRoute
   TeamRoute: typeof TeamRoute
   ProgramsSlugRoute: typeof ProgramsSlugRoute
@@ -335,6 +347,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/programs/$slug'
       preLoaderRoute: typeof ProgramsSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
+      parentRoute: typeof NewsRoute
     }
     '/admin/team': {
       id: '/admin/team'
@@ -431,13 +450,23 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface NewsRouteChildren {
+  NewsSlugRoute: typeof NewsSlugRoute
+}
+
+const NewsRouteChildren: NewsRouteChildren = {
+  NewsSlugRoute: NewsSlugRoute,
+}
+
+const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
-  NewsRoute: NewsRoute,
+  NewsRoute: NewsRouteWithChildren,
   ProjectsRoute: ProjectsRoute,
   TeamRoute: TeamRoute,
   ProgramsSlugRoute: ProgramsSlugRoute,

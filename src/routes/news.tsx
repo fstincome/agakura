@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { ArrowRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -34,18 +35,30 @@ function News() {
         </div>
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {(data ?? []).length === 0 && <p className="text-muted-foreground">{t("news.empty")}</p>}
-          {(data ?? []).map((n) => (
-            <article key={n.id} className="card-soft overflow-hidden">
-              {n.image_url && <img src={n.image_url} alt="" className="aspect-[16/9] w-full object-cover" />}
-              <div className="p-6">
-                <time className="text-xs text-muted-foreground">{new Date(n.published_at).toLocaleDateString(lang)}</time>
-                <h3 className="mt-1 text-xl font-bold">{lang === "fr" ? n.title_fr : n.title_en}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{lang === "fr" ? n.excerpt_fr : n.excerpt_en}</p>
-              </div>
-            </article>
-          ))}
+          {(data ?? []).map((n) => {
+            const excerpt = lang === "fr" ? n.excerpt_fr : n.excerpt_en;
+            return (
+              <article key={n.id} className="card-soft overflow-hidden flex flex-col">
+                {n.image_url && <img src={n.image_url} alt="" className="aspect-[16/9] w-full object-cover" />}
+                <div className="p-6 flex flex-col flex-1">
+                  <time className="text-xs text-muted-foreground">{new Date(n.published_at).toLocaleDateString(lang)}</time>
+                  <h3 className="mt-1 text-xl font-bold">{lang === "fr" ? n.title_fr : n.title_en}</h3>
+                  {excerpt && <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{excerpt}</p>}
+                  <Link
+                    to="/news/$slug"
+                    params={{ slug: n.slug }}
+                    className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-primary hover:gap-2 transition-all"
+                  >
+                    {lang === "fr" ? "Lire plus" : "Read more"}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+
