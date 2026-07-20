@@ -66,8 +66,8 @@ function AdminTeam() {
               {r.photo_url ? (
                 <img src={r.photo_url} alt={fullName} className="w-full aspect-[4/3] object-cover" />
               ) : (
-                <div className="w-full aspect-[4/3] grid place-items-center bg-gradient-to-br from-primary to-accent text-white font-bold text-3xl">
-                  {fullName.split(" ").map((s) => s[0]).join("").slice(0, 2)}
+                <div className="w-full aspect-[4/3] grid place-items-center bg-secondary text-muted-foreground">
+                  <UserIcon className="h-16 w-16" strokeWidth={1.25} />
                 </div>
               )}
               <div className="p-4 flex flex-col gap-2 flex-1">
