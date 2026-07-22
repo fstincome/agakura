@@ -3,6 +3,9 @@ import { useI18n } from "@/lib/i18n";
 import { useSiteContent } from "@/lib/site-content";
 import { Target, Eye, Heart } from "lucide-react";
 
+// Importation directe depuis src/assets/programs
+import champsImg from "@/assets/hero/11.jpeg";
+
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
@@ -27,7 +30,12 @@ function About() {
             <h1 className="mt-2 text-4xl sm:text-5xl font-bold">{get("about.title", t("about.title"))}</h1>
             <p className="mt-5 text-muted-foreground leading-relaxed">{get("about.body", t("about.body"))}</p>
           </div>
-          <img src="https://agakura.bi/champs.jpg" alt="" className="rounded-3xl object-cover h-[420px] w-full" />
+          {/* Utilisation de l'image locale importée */}
+          <img 
+            src={champsImg} 
+            alt="Champs AGAKURA" 
+            className="rounded-3xl object-cover h-[420px] w-full" 
+          />
         </div>
       </section>
       <section className="section bg-secondary/40">

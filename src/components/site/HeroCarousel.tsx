@@ -5,6 +5,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
+// Imports explicites des 3 images depuis src/assets/hero/
+import visiteImg from "@/assets/hero/visite.jpg";
+import travauxImg from "@/assets/hero/travaux.jpg";
+import champsImg from "@/assets/hero/champs.jpg";
+
+// Tableau ordonné des images
+const heroImages = [visiteImg, travauxImg, champsImg];
+
 type Slide = {
   id: string;
   title_fr: string; title_en: string;
@@ -49,19 +57,6 @@ export function HeroCarousel() {
     );
   }
 
-  // Preload first image for faster LCP
-  useEffect(() => {
-    const firstImage = list[0]?.image_url;
-    if (!firstImage) return;
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = firstImage;
-    link.fetchPriority = "high";
-    document.head.appendChild(link);
-    return () => { document.head.removeChild(link); };
-  }, [list[0]?.image_url]);
-
   const s = list[i] ?? list[0];
   const title = lang === "fr" ? s.title_fr : s.title_en;
   const sub = lang === "fr" ? s.subtitle_fr : s.subtitle_en;
@@ -70,16 +65,23 @@ export function HeroCarousel() {
   return (
     <section className="container-x pt-8">
       <div className="relative overflow-hidden rounded-3xl">
-        {list.map((slide: Slide, idx: number) => (
-          <img
-            key={slide.id}
-            src={slide.image_url ?? ""}
-            alt=""
-            loading={idx === i ? "eager" : "lazy"}
-            fetchPriority={idx === i ? "high" : "low"}
-            className={`h-[420px] sm:h-[560px] w-full object-cover transition-opacity duration-1000 ${idx === i ? "opacity-100" : "opacity-0 absolute inset-0"}`}
-          />
-        ))}
+        {list.map((slide: Slide, idx: number) => {
+          // Utilise l'image selon l'index (visite pour le 1er, travaux pour le 2e, champs pour le 3e)
+          const imgSrc = heroImages[idx % heroImages.length] ?? slide.image_url ?? "";
+
+          return (
+            <img
+              key={slide.id}
+              src={imgSrc}
+              alt=""
+              loading={idx === i ? "eager" : "lazy"}
+              fetchPriority={idx === i ? "high" : "low"}
+              className={`h-[420px] sm:h-[560px] w-full object-cover transition-opacity duration-1000 ${
+                idx === i ? "opacity-100" : "opacity-0 absolute inset-0"
+              }`}
+            />
+          );
+        })}
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
         <div className="absolute inset-0 flex items-end">
           <div key={s.id} className="p-6 sm:p-12 max-w-3xl text-white animate-fade-in">

@@ -4,6 +4,12 @@ import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowRight } from "lucide-react";
 
+// 1. Charger dynamiquement toutes les images du dossier src/assets/programs/
+const programImages = import.meta.glob<{ default: string }>(
+  "@/assets/programs/*.{png,jpg,jpeg,webp,svg}",
+  { eager: true }
+);
+
 export const Route = createFileRoute("/projects")({
   head: () => ({
     meta: [
@@ -46,6 +52,17 @@ function Projects() {
           {programs.map((p, i) => {
             const title = lang === "fr" ? p.title_fr : p.title_en;
             const excerpt = lang === "fr" ? p.excerpt_fr : p.excerpt_en;
+
+            // 2. Trouver l'image dans src/assets/programs/ qui correspond au slug du programme
+            const matchingImagePath = Object.keys(programImages).find((path) =>
+              path.includes(`/${p.slug}.`)
+            );
+
+            // Si l'image locale existe, on la prend, sinon on se rabat sur p.image_url de Supabase
+            const imageSrc = matchingImagePath
+              ? programImages[matchingImagePath].default
+              : p.image_url;
+
             return (
               <article
                 key={p.id}
@@ -53,9 +70,9 @@ function Projects() {
                 style={{ animationDelay: `${i * 120}ms`, animationFillMode: "both" }}
               >
                 <div className="aspect-[4/3] overflow-hidden bg-secondary">
-                  {p.image_url && (
+                  {imageSrc && (
                     <img
-                      src={p.image_url}
+                      src={imageSrc}
                       alt={title ?? ""}
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
@@ -69,7 +86,8 @@ function Projects() {
                     params={{ slug: p.slug }}
                     className="btn-primary mt-4 w-fit"
                   >
-                    {lang === "fr" ? "Voir les détails" : "See details"} <ArrowRight className="h-4 w-4" />
+                    {lang === "fr" ? "Voir les détails" : "See details"}{" "}
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>
               </article>

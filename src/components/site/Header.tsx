@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
-import logoAsset from "@/assets/agakura-logo.jpg.asset.json";
+
+// Importation directe du logo situé dans src/assets/logo.jpg
+import logoImg from "@/assets/logo.jpg";
 
 export function Header() {
   const { t, lang, setLang } = useI18n();
@@ -29,8 +31,9 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-3 md:gap-6">
         <Link to="/" className="flex items-center gap-2 min-w-0 shrink-0">
+          {/* Utilisation du logo local */}
           <img
-            src={logoAsset.url}
+            src={logoImg}
             alt="AGAKURA Jeunesse Providence"
             className="h-10 w-10 md:h-11 md:w-11 rounded-full object-cover ring-2 ring-primary/30 bg-white shrink-0"
           />
@@ -74,7 +77,7 @@ export function Header() {
             to={authed ? "/admin" : "/auth"}
             className="hidden sm:inline-flex items-center rounded-full bg-foreground px-3 py-1.5 text-xs font-semibold text-background hover:opacity-90 transition"
           >
-            {authed ? t("nav.admin") : "ELITE"}
+            {authed ? t("nav.admin") : "Login"}
           </Link>
           <button
             onClick={() => setOpen((o) => !o)}
@@ -106,7 +109,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="ml-auto inline-flex items-center rounded-full bg-foreground px-3 py-1.5 text-xs font-semibold text-background"
               >
-                {authed ? t("nav.admin") : "ELITE"}
+                {authed ? t("nav.admin") : "Login"}
               </Link>
             </div>
           </div>

@@ -35,19 +35,19 @@ export const dict = {
   "stats.hq.sub": { fr: "Makebuko, Gitega", en: "Makebuko, Gitega" },
   "legal.title": { fr: "Reconnaissance légale & conformité", en: "Legal recognition & Compliance" },
   "legal.body": {
-    fr: "AGAKURA Jeunesse Providence est une ONG légalement reconnue au Burundi. Agréée par Ordonnance Ministérielle N° 530/170 du 15 mai 1995, et opérant en stricte conformité avec la loi sur les Associations Sans But Lucratif, agrément N° 530/1786/CAB/2018.",
+    fr: "AGAKURA Jeunesse Providence est une ONG légalement reconnue au Burundi. Promue par le frère dominicain Déogratias BANZIRUMUHITO, OP et agréée par Ordonnance Ministérielle N° 530/170 du 15 mai 1995, et opérant en stricte conformité avec la loi sur les Associations Sans But Lucratif, agrément N° 530/1786/CAB/2018.",
     en: "AGAKURA Jeunesse Providence is a legally recognized NGO in Burundi. Approved under Ministerial Order No. 530/170 of 15 May 1995, and strictly operating in conformity with the Non-Profit Making Organization Act Approval No. 530/1786/CAB/2018.",
   },
   "legal.tag1": { fr: "Établie en 1995", en: "Established 1995" },
   "legal.tag2": { fr: "ONG locale certifiée", en: "Certified Local NGO" },
   "core.eyebrow": { fr: "Ce que nous faisons", en: "What We Do" },
   "core.title": { fr: "Nos domaines clés", en: "Our core domains" },
-  "core.youth.t": { fr: "Autonomisation des jeunes", en: "Youth Empowerment" },
+  "core.youth.t": { fr: "Formations pratiques pour l'autonomisation des jeunes", en: "Youth Empowerment" },
   "core.youth.b": {
     fr: "Formation professionnelle en compétences agricoles et non agricoles pour aider les diplômés à lancer de petites entreprises et garantir une résilience à long terme.",
     en: "Vocational training in agricultural and non-agricultural skills to help graduates start small businesses and ensure long-term resilience.",
   },
-  "core.women.t": { fr: "Inclusion économique des femmes", en: "Women's Economic Inclusion" },
+  "core.women.t": { fr: "Sensibilisation des communautés en gouvernance environnementale", en: "Women's Economic Inclusion" },
   "core.women.b": {
     fr: "Autonomiser les femmes et les familles vulnérables grâce à des activités génératrices de revenus, à l'éducation financière et à des programmes d'inclusion durables.",
     en: "Empowering women and vulnerable families through income-generating activities, financial literacy, and sustainable inclusion programs.",
@@ -135,3 +135,4 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 }
 
 export const useI18n = () => useContext(Ctx);
+

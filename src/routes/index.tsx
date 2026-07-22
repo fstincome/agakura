@@ -1,10 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useSuspenseQuery, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { HeroCarousel } from "@/components/site/HeroCarousel";
 import { ArrowRight, Phone, MapPin, Users, ShieldCheck, Leaf, GraduationCap, Sparkles } from "lucide-react";
 import { createServerFn } from "@tanstack/react-start";
+
+// 1. Imports des images statiques depuis src/assets/hero/
+import champsImg from "@/assets/hero/22.jpeg";
+import travauxImg from "@/assets/hero/11.jpeg";
+import visiteImg from "@/assets/hero/22.jpeg";
+
+// 2. Import dynamique des images des projets depuis src/assets/programs/ (si présentes)
+const programImages = import.meta.glob<{ default: string }>(
+  "@/assets/programs/*.{png,jpg,jpeg,webp,svg}",
+  { eager: true }
+);
 
 const getHeroSlides = createServerFn({ method: "GET" })
   .handler(async () => {
@@ -23,7 +34,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Education, health, youth empowerment and environmental programs in Burundi since 1995." },
       { property: "og:title", content: "AGAKURA Jeunesse Providence" },
       { property: "og:description", content: "Community Development & Youth Empowerment NGO in Burundi." },
-      { property: "og:image", content: "https://agakura.bi/visite.jpg" },
+      { property: "og:image", content: visiteImg }, // Utilisation de l'image visite.jpg importée
     ],
   }),
   loader: async ({ context }) => {
@@ -77,8 +88,9 @@ function Home() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <img src="https://agakura.bi/champs.jpg" alt="" className="rounded-2xl h-48 sm:h-64 w-full object-cover" />
-            <img src="https://agakura.bi/travaux.jpg" alt="" className="rounded-2xl h-48 sm:h-64 w-full object-cover mt-8" />
+            {/* Remplacement des URLs distantes par les images locales importées */}
+            <img src={champsImg} alt="Champs AGAKURA" className="rounded-2xl h-48 sm:h-64 w-full object-cover" />
+            <img src={travauxImg} alt="Travaux AGAKURA" className="rounded-2xl h-48 sm:h-64 w-full object-cover mt-8" />
           </div>
         </div>
       </section>
@@ -106,27 +118,47 @@ function Home() {
             <h2 className="mt-2 text-3xl sm:text-4xl font-bold">{t("projects.title")}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
-            {(projects ?? []).map((p) => (
-              <article key={p.id} className="card-soft overflow-hidden group flex flex-col">
-                <div className="aspect-[4/3] overflow-hidden bg-secondary">
-                  {p.image_url && (
-                    <img src={p.image_url} alt={lang === "fr" ? p.title_fr : p.title_en} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-                  )}
-                </div>
-                <div className="p-5 flex-1 flex flex-col">
-                  <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-                    {lang === "fr" ? p.category_fr : p.category_en}
+            {(projects ?? []).map((p) => {
+              // Recherche de l'image locale dans src/assets/programs/ correspondant au slug
+              const matchingImagePath = Object.keys(programImages).find((path) =>
+                path.includes(`/${p.slug}.`)
+              );
+              const imageSrc = matchingImagePath
+                ? programImages[matchingImagePath].default
+                : p.image_url;
+
+              return (
+                <article key={p.id} className="card-soft overflow-hidden group flex flex-col">
+                  <div className="aspect-[4/3] overflow-hidden bg-secondary">
+                    {imageSrc && (
+                      <img
+                        src={imageSrc}
+                        alt={lang === "fr" ? p.title_fr : p.title_en}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    )}
                   </div>
-                  <h3 className="mt-1 font-bold text-lg leading-snug">{lang === "fr" ? p.title_fr : p.title_en}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground line-clamp-3 flex-1">
-                    {lang === "fr" ? p.excerpt_fr : p.excerpt_en}
-                  </p>
-                  <Link to="/programs/$slug" params={{ slug: p.slug }} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                    {t("projects.details")} <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </article>
-            ))}
+                  <div className="p-5 flex-1 flex flex-col">
+                    <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
+                      {lang === "fr" ? p.category_fr : p.category_en}
+                    </div>
+                    <h3 className="mt-1 font-bold text-lg leading-snug">
+                      {lang === "fr" ? p.title_fr : p.title_en}
+                    </h3>
+                    <p className="mt-2 text-sm text-muted-foreground line-clamp-3 flex-1">
+                      {lang === "fr" ? p.excerpt_fr : p.excerpt_en}
+                    </p>
+                    <Link
+                      to="/programs/$slug"
+                      params={{ slug: p.slug }}
+                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                    >
+                      {t("projects.details")} <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

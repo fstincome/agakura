@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, MapPin, Mail } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import logoAsset from "@/assets/agakura-logo.jpg.asset.json";
+
+// Importation brute du logo statique depuis src/assets/logo.jpg
+import logoImg from "@/assets/logo.jpg";
 
 export function Footer() {
   const { t } = useI18n();
@@ -10,7 +12,12 @@ export function Footer() {
       <div className="container-x py-12 grid gap-10 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <img src={logoAsset.url} alt="AGAKURA" className="h-11 w-11 rounded-full object-cover bg-white ring-2 ring-primary/30" />
+            {/* Utilisation directe de l'image statique importée */}
+            <img 
+              src={logoImg} 
+              alt="AGAKURA" 
+              className="h-11 w-11 rounded-full object-cover bg-white ring-2 ring-primary/30 shrink-0" 
+            />
             <div className="font-bold">AGAKURA <span className="text-primary">JEUNESSE PROVIDENCE</span></div>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-md">{t("brand.tagline")}</p>
@@ -27,9 +34,9 @@ export function Footer() {
         <div>
           <div className="text-sm font-semibold mb-3">Contact</div>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> (+257) 61 869 718</li>
-            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> Makebuko, Gitega</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> contact@agakura.bi</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary shrink-0" /> (+257) 61 869 718</li>
+            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary shrink-0" /> Makebuko, Gitega</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary shrink-0" /> contact@agakura.bi</li>
           </ul>
         </div>
       </div>
